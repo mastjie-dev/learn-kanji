@@ -1,0 +1,52 @@
+<html>
+<head>
+    <script src="./tailwind.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body>
+    <div class="flex justify-center h-full">
+    
+    <div class="max-w-96 min-w-80 mx-5 h-full"
+        x-data="home" x-show="visible" @emithome.window="display">
+        <template x-for="menu in menulist">
+            <button
+                class="block w-80 my-2 bg-red-200 hover:bg-red-400"
+                @click="opencontent(menu.id)"
+                x-text="menu.text"
+            ></button>
+        </template>
+    </div>
+
+    <div class="max-w-96 min-w-80"
+        x-data="content" x-show="visible" @emitcontent.window="display">
+        <button class="block w-full my-2 bg-amber-200 hover:bg-amber-400"
+            @click="openhome">
+            Back to homepage 
+        </button>
+        <template x-for="i in count">
+            <button class="block w-full my-2 bg-sky-200 hover:bg-sky-400"
+                @click="openlearn(i)">
+                Lesson <span x-text="i"></span>
+            </button>
+        </template>
+    </div>
+
+    <div class="max-w-96 min-w-80"
+        x-data="learn" x-show="visible" @emitlearn.window="display">
+        <button class="block w-full my-2 bg-amber-200 hover:bg-amber-400"
+            @click="opencontent">
+            Back to lessons page
+        </button>
+        <div x-text="text"></div>
+        <button
+            @click="prev"
+        >Prev</button>
+        <button
+            @click="next"
+        >Next</button>
+    </div>
+    
+    </div>
+    <script src="./main.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <style>
+            div {
+                margin-bottom: 5px;
+            }
+            input {
+                display: block;
+                margin-bottom: 5px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="info">
+        </div>
+        <div id="rdc">
+            
+        </div>
+        <button id="nxt">NEXT</button>
+        <hr/>
+        <button id="upd">UPDATE</button>
+
+        <script type="module">
+            let index = 0
+            let array = null
+            let radicals = null
+            let count = 0
+            const bundle = []
+            
+        
+            const infoEL = document.getElementById("info")
+
+            function showInfo({ id, kanji, mean, kread, oread}) {
+                infoEL.innerHTML = ""
+                const k = document.createElement("div")
+                k.innerText = kanji
+                const kr = document.createElement("div")
+                kr.innerText = kread
+                const or = document.createElement("div")
+                or.innerText = oread
+                const m = document.createElement("input")
+                m.value = mean
+                const r = document.createElement("input")
+
+                infoEL.appendChild(k)
+                infoEL.appendChild(kr)
+                infoEL.appendChild(or)
+                infoEL.appendChild(m)
+                infoEL.appendChild(r)
+            }
+
+            document.getElementById("nxt").addEventListener("click", () => {
+                index++
+                count++
+                showInfo(array[index])
+            })
+            document.getElementById("upd").addEventListener("click", () => {
+                const { kanji, kread, oread, stroke } = array[index]
+                
+                const inputs = document.querySelectorAll("#info input")
+                const mean = inputs[0].value.split(",")
+                const radicals = inputs[1].value.split(",")
+
+                bundle.push({
+                    id: index,
+                    kanji,
+                    kread,
+                    oread,
+                    stroke,
+                    mean,
+                    radicals,
+                })
+
+                if (count === 5) {
+                    console.log(bundle)
+                }
+            })
+
+            fetch("./kanjis.json")
+                .then(res => res.json())
+                .then(json => {
+                    showInfo(json[0])
+                    array = json
+                })
+            /*
+            fetch("./radicals.json")
+                .then(res => res.json())
+            */                  
+
+        </script>
+    </body>
+</html>
