@@ -82,10 +82,11 @@ const learn = () => ({
 
         const start = (detail.collection - 1) * 100
             + (detail.lesson - 1) * 10
-        this.text = all[start].kanji
         const end = start + 10
+        
+        this.text = all[start]
         for (let i = start; i < end; i++) {
-            this.list.push(all[i].kanji)
+            this.list.push(all[i])
         }
     },
     opencontent() {

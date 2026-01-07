@@ -10,7 +10,8 @@
         x-data="home" x-show="visible" @emithome.window="display">
         <template x-for="menu in menulist">
             <button
-                class="block w-80 my-2 bg-red-200 hover:bg-red-400"
+                class="block w-80 py-2 odd:bg-red-200
+                    even:bg-red-100 hover:bg-red-400"
                 @click="opencontent(menu.id)"
                 x-text="menu.text"
             ></button>
@@ -19,31 +20,65 @@
 
     <div class="max-w-96 min-w-80"
         x-data="content" x-show="visible" @emitcontent.window="display">
-        <button class="block w-full my-2 bg-amber-200 hover:bg-amber-400"
+        <button class="block w-full py-2 bg-amber-200 hover:bg-amber-400"
             @click="openhome">
             Back to homepage 
         </button>
         <template x-for="i in count">
-            <button class="block w-full my-2 bg-sky-200 hover:bg-sky-400"
+            <button class="block w-full py-2 odd:bg-emerald-200
+                    even:bg-emerald-100 hover:bg-emerald-400"
                 @click="openlearn(i)">
                 Lesson <span x-text="i"></span>
             </button>
         </template>
     </div>
 
-    <div class="max-w-96 min-w-80"
+    <div class="w-96"
         x-data="learn" x-show="visible" @emitlearn.window="display">
-        <button class="block w-full my-2 bg-amber-200 hover:bg-amber-400"
+        <button class="block w-full py-2 bg-amber-200 hover:bg-amber-400"
             @click="opencontent">
             Back to lessons page
         </button>
-        <div x-text="text"></div>
-        <button
-            @click="prev"
-        >Prev</button>
-        <button
-            @click="next"
-        >Next</button>
+        <div class="py-2 pl-2">
+            Collection: <span x-text="collection"></span>
+            Lesson: <span x-text="lesson"></span>
+        </div>
+        <div>
+            <div class="flex justify-center bg-gray-300">
+                <p x-text="text.kanji" class="text-6xl py-2"></p>
+            </div>
+            <div class="flex flex-row py-2 bg-gray-100 text-lg">
+                <div class="basis-1/4 pl-2">Meaning</div>
+                <div class="basis-3/4 pl-2">
+                    <template x-for="m in text.mean">
+                        <p x-text="m"></p>
+                    </template>
+                </div>
+            </div>
+            <div class="flex flex-row py-2 bg-gray-300 text-lg">
+                <div class="basis-1/4 pl-2">Kun'yomi</div>
+                <div class="basis-3/4 pl-2">
+                    <template x-for="k in text.kread">
+                        <p x-text="k"></p>
+                    </template>
+                </div>
+            </div>
+            <div class="flex flex-row py-2 bg-gray-100 text-lg">
+                <div class="basis-1/4 pl-2">On'yomi</div>
+                <div class="basis-3/4 pl-2">
+                    <template x-for="o in text.oread">
+                        <p x-text="o"></p>
+                    </template>
+                </div>
+            </div>
+            
+        </div>
+        <div class="flex flex-row">
+            <button class="w-1/2 py-2 bg-sky-400 hover:bg-sky-600 mr-1"
+                @click="prev">Prev</button>
+            <button class="w-1/2 py-2 bg-sky-400 hover:bg-sky-600 ml-1"
+                @click="next">Next</button>
+        </div>
     </div>
     
     </div>
