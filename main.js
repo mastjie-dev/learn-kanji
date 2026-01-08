@@ -2,7 +2,25 @@ let all = null
 
 fetch("./kanjis.json")
     .then(res => res.json())
-    .then(json => all = json)
+    .then(json => {
+        all = json
+    })
+
+function shuffle(array) {
+  let currentIndex = array.length;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+}
 
 const test = () => ({
     value: 0,
@@ -65,6 +83,15 @@ const content = () => ({
             lesson: this.lesson,
         })
     },
+    openquiz(lesson) {
+        this.visible = false
+        this.lesson = lesson
+        this.$dispatch("emitquiz", {
+            collection: this.collection,
+            lesson: this.lesson,
+        })
+    },
+
 })
 
 const learn = () => ({
@@ -109,9 +136,70 @@ const learn = () => ({
     },
 })
 
+const quiz = () => ({
+    visible: false,
+    collection: 0,
+    lesson: 0,
+    index: 0,
+    list: [],
+    text: "",
+    mean: new Set(),
+    kread: new Set(),
+    oread: new Set(),
+    
+    display({ detail }) {
+        this.visible = true
+        this.collection = detail.collection
+        this.lesson = detail.lesson
+        
+        const start = (detail.collection - 1) * 100
+            + (detail.lesson - 1) * 10
+        const end = start + 10
+        
+        this.text = all[start]
+        const means = []
+        const kreads = []
+        const oreads = []
+        for (let i = start; i < end; i++) {
+            this.list.push(all[i])
+            if (i === 0) continue
+            means.push(...all[i].mean) 
+            kreads.push(...all[i].kread) 
+            oreads.push(...all[i].oread) 
+        }
+        /*
+            pop 10 - current shuffle array
+            combine, shuffle
+            render
+        */
+    },
+    opencontent() {
+        this.visible = false
+        this.index = 0
+        this.list.length = 0
+        this.mean.clear()
+        this.kread.clear()
+        this.oread.clear()
+        this.$dispatch("emitcontent", this.collection)
+    },
+    next() {
+        if (this.index < 9) {
+            this.index++
+            this.text = this.list[this.index]
+        }
+    },
+    prev() {
+        if (this.index > 0) {
+            this.index--
+            this.text = this.list[this.index]
+        }
+    },
+})
+
 document.addEventListener("alpine:init", () => {
     Alpine.data("home", home)
     Alpine.data("content", content)
     Alpine.data("learn", learn)
+    Alpine.data("quiz", quiz)
 })
 

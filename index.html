@@ -31,6 +31,13 @@
                 Lesson <span x-text="i"></span>
             </button>
         </template>
+        <template x-for="i in count">
+            <button class="block w-full py-2 even:bg-blue-200
+                    odd:bg-blue-100 hover:bg-blue-400"
+                @click="openquiz(i)">
+                Quiz for lesson <span x-text="i"></span>
+            </button>
+        </template>
     </div>
 
     <div class="w-96"
@@ -43,6 +50,7 @@
             Collection: <span x-text="collection"></span>
             Lesson: <span x-text="lesson"></span>
         </div>
+
         <div>
             <div class="flex justify-center bg-gray-300">
                 <p x-text="text.kanji" class="text-6xl py-2"></p>
@@ -71,7 +79,30 @@
                     </template>
                 </div>
             </div>
-            
+        </div>
+        
+        <div class="flex flex-row">
+            <button class="w-1/2 py-2 bg-sky-400 hover:bg-sky-600 mr-1"
+                @click="prev">Prev</button>
+            <button class="w-1/2 py-2 bg-sky-400 hover:bg-sky-600 ml-1"
+                @click="next">Next</button>
+        </div>
+    </div>
+
+    <div class="w-96"
+        x-data="quiz" x-show="visible" @emitquiz.window="display">
+        <button class="block w-full py-2 bg-amber-200 hover:bg-amber-400"
+            @click="opencontent">
+            Back to lessons page
+        </button>
+        <div class="py-2 pl-2">
+            Collection: <span x-text="collection"></span>
+            Lesson: <span x-text="lesson"></span>
+        </div>
+        <div>
+            <div class="flex justify-center bg-gray-300">
+                <p x-text="text.kanji" class="text-6xl py-2"></p>
+            </div>
         </div>
         <div class="flex flex-row">
             <button class="w-1/2 py-2 bg-sky-400 hover:bg-sky-600 mr-1"
@@ -80,7 +111,8 @@
                 @click="next">Next</button>
         </div>
     </div>
-    
+
+    <!-- END OF CONTAINER -->
     </div>
     <script src="./main.js"></script>
 </body>
