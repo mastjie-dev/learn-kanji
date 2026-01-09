@@ -22,6 +22,19 @@ function shuffle(array) {
   }
 }
 
+function prepAnswers(_curr, _all) {
+    const currSet = new Set(_curr)
+    const allSet = new Set(_all)
+    const diffSet = allSet.difference(currSet)
+
+    const diffArr = Array.from(diffSet)
+    shuffle(diffArr)
+    const target = [..._curr, ...diffArr]
+    target.splice(10)
+    shuffle(target)
+    return target
+}
+
 const test = () => ({
     value: 0,
     rand() { this.value = Math.random() }
@@ -143,10 +156,8 @@ const quiz = () => ({
     index: 0,
     list: [],
     text: "",
-    mean: new Set(),
-    kread: new Set(),
-    oread: new Set(),
-    
+    meanList: [],
+
     display({ detail }) {
         this.visible = true
         this.collection = detail.collection
@@ -160,6 +171,7 @@ const quiz = () => ({
         const means = []
         const kreads = []
         const oreads = []
+
         for (let i = start; i < end; i++) {
             this.list.push(all[i])
             if (i === 0) continue
@@ -167,31 +179,44 @@ const quiz = () => ({
             kreads.push(...all[i].kread) 
             oreads.push(...all[i].oread) 
         }
-        /*
-            pop 10 - current shuffle array
-            combine, shuffle
-            render
-        */
+        this.meanList = prepAnswers(all[start].mean, means)
     },
     opencontent() {
         this.visible = false
         this.index = 0
         this.list.length = 0
-        this.mean.clear()
-        this.kread.clear()
-        this.oread.clear()
         this.$dispatch("emitcontent", this.collection)
     },
     next() {
         if (this.index < 9) {
             this.index++
             this.text = this.list[this.index]
+            
+            const m = []
+            const k = []
+            const o = []
+            for (let l of this.list) {
+                m.push(...l.mean)
+                k.push(...l.kread)
+                o.push(...l.oread)
+            }
+            this.meanList = prepAnswers(this.list[this.index].mean, m)
         }
     },
     prev() {
         if (this.index > 0) {
             this.index--
             this.text = this.list[this.index]
+            
+            const m = []
+            const k = []
+            const o = []
+            for (let l of this.list) {
+                m.push(...l.mean)
+                k.push(...l.kread)
+                o.push(...l.oread)
+            }
+            this.meanList = prepAnswers(this.list[this.index].mean, m)
         }
     },
 })
