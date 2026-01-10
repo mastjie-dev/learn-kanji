@@ -1,16 +1,17 @@
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="./tailwind.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
     <div class="flex justify-center h-full">
     
-    <div class="max-w-96 min-w-80 mx-5 h-full"
+    <div class="w-full lg:w-96 mx-4 h-full"
         x-data="home" x-show="visible" @emithome.window="display">
         <template x-for="menu in menulist">
             <button
-                class="block w-80 py-2 odd:bg-red-200
+                class="block w-full lg:w-96 py-2 odd:bg-red-200
                     even:bg-red-100 hover:bg-red-400"
                 @click="opencontent(menu.id)"
                 x-text="menu.text"
@@ -18,7 +19,7 @@
         </template>
     </div>
 
-    <div class="max-w-96 min-w-80"
+    <div class="w-full lg:w-96 mx-4"
         x-data="content" x-show="visible" @emitcontent.window="display">
         <button class="block w-full py-2 bg-amber-200 hover:bg-amber-400"
             @click="openhome">
@@ -40,7 +41,7 @@
         </template>
     </div>
 
-    <div class="w-96"
+    <div class="w-full lg:w-96 mx-4"
         x-data="learn" x-show="visible" @emitlearn.window="display">
         <button class="block w-full py-2 bg-amber-200 hover:bg-amber-400"
             @click="opencontent">
@@ -89,7 +90,7 @@
         </div>
     </div>
 
-    <div class="w-96"
+    <div class="w-full lg:w-96 mx-4"
         x-data="quiz" x-show="visible" @emitquiz.window="display">
         <button class="block w-full py-2 bg-amber-200 hover:bg-amber-400"
             @click="opencontent">
