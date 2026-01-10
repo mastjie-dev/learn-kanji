@@ -105,15 +105,48 @@
             </div>
         </div>
         <div class="grid grid-cols-2 py-2">
-            <template x-for="m in meanList">
-                
+            <template x-if="!answered">
+                <template x-for="m in meanList">
+                    <div class="px-2 cursor-pointer" @click="selectanswer(m.id)">
+                        <template x-if="!m.selected">
+                            <img src="./circle.png" class="inline-block"/>
+                        </template>
+                        <template x-if="m.selected">
+                            <img src="./picked.png" class="inline-block"/>
+                        </template>
+                        <span x-text="m.text"></span>
+                    </div>                
+                </template>
+            </template>
+            <template x-if="answered">
+                <template x-for="m in meanList">
+                    <div class="px-2 cursor-pointer"> 
+                        <template x-if="!m.selected && !m.correct">
+                            <img src="./circle.png" class="inline-block"/>
+                        </template>
+                        <template x-if="m.selected && m.correct">
+                            <img src="./right.png" class="inline-block"/>
+                        </template>
+                        <template x-if="!m.selected && m.correct">
+                            <img src="./unpicked.png" class="inline-block"/>
+                        </template>
+                        <template x-if="m.selected && !m.correct">
+                            <img src="./wrong.png" class="inline-block"/>
+                        </template>
+                        <span x-text="m.text"></span>
+                    </div>
+                </template>
             </template>
         </div>
-        <div class="flex flex-row">
-            <button class="w-1/2 py-2 bg-sky-400 hover:bg-sky-600 mr-1"
-                @click="prev">Prev</button>
-            <button class="w-1/2 py-2 bg-sky-400 hover:bg-sky-600 ml-1"
-                @click="next">Next</button>
+        <div class="">
+            <template x-if="answered">
+                <button class="w-full py-2 bg-sky-400 hover:bg-sky-600"
+                    @click="next">Next</button>
+            </template>
+            <template x-if="!answered">
+                <button class="w-full py-2 bg-sky-400 hover:bg-sky-600"
+                    @click="checkanswer">Check Answer</button>
+            </template>
         </div>
     </div>
 

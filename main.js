@@ -29,7 +29,27 @@ function prepAnswers(_curr, _all) {
 
     const diffArr = Array.from(diffSet)
     shuffle(diffArr)
-    const target = [..._curr, ...diffArr]
+    const target = []
+    let id = 0
+    for (let c of currSet) {
+        target.push({
+            id: id,
+            correct: true,
+            selected: false,
+            text: c,
+        })
+        id++
+        if (id === 4) break
+    }
+    for (let d of diffArr) {
+        target.push({
+            id: id,
+            correct: false,
+            selected: false,
+            text: d,
+        })
+        id++
+    }
     target.splice(10)
     shuffle(target)
     return target
@@ -156,6 +176,7 @@ const quiz = () => ({
     index: 0,
     list: [],
     text: "",
+    answered: false,
     meanList: [],
 
     display({ detail }) {
@@ -185,13 +206,20 @@ const quiz = () => ({
         this.visible = false
         this.index = 0
         this.list.length = 0
+        this.answered = false
+        this.meanList.length = 0
         this.$dispatch("emitcontent", this.collection)
+    },
+    selectanswer(id) {
+        const picked = this.meanList.find(m => m.id === id)
+        picked.selected = !picked.selected
     },
     next() {
         if (this.index < 9) {
             this.index++
             this.text = this.list[this.index]
-            
+            this.answered = false
+
             const m = []
             const k = []
             const o = []
@@ -203,21 +231,8 @@ const quiz = () => ({
             this.meanList = prepAnswers(this.list[this.index].mean, m)
         }
     },
-    prev() {
-        if (this.index > 0) {
-            this.index--
-            this.text = this.list[this.index]
-            
-            const m = []
-            const k = []
-            const o = []
-            for (let l of this.list) {
-                m.push(...l.mean)
-                k.push(...l.kread)
-                o.push(...l.oread)
-            }
-            this.meanList = prepAnswers(this.list[this.index].mean, m)
-        }
+    checkanswer() {
+        this.answered = true
     },
 })
 
