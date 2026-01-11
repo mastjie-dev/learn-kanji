@@ -178,6 +178,8 @@ const quiz = () => ({
     text: "",
     answered: false,
     meanList: [],
+    kreadList: [],
+    oreadList: [],
 
     display({ detail }) {
         this.visible = true
@@ -201,6 +203,8 @@ const quiz = () => ({
             oreads.push(...all[i].oread) 
         }
         this.meanList = prepAnswers(all[start].mean, means)
+        this.kreadList = prepAnswers(all[start].kread, kreads)
+        this.oreadList = prepAnswers(all[start].oread, oreads)
     },
     opencontent() {
         this.visible = false
@@ -210,8 +214,16 @@ const quiz = () => ({
         this.meanList.length = 0
         this.$dispatch("emitcontent", this.collection)
     },
-    selectanswer(id) {
+    selectmean(id) {
         const picked = this.meanList.find(m => m.id === id)
+        picked.selected = !picked.selected
+    },
+    selectkread(id) {
+        const picked = this.kreadList.find(k => k.id === id)
+        picked.selected = !picked.selected
+    },
+    selectoread(id) {
+        const picked = this.oreadList.find(o => o.id === id)
         picked.selected = !picked.selected
     },
     next() {
@@ -229,10 +241,52 @@ const quiz = () => ({
                 o.push(...l.oread)
             }
             this.meanList = prepAnswers(this.list[this.index].mean, m)
+            this.kreadList = prepAnswers(this.list[this.index].kread, k)
+            this.oreadList = prepAnswers(this.list[this.index].oread, o)
         }
     },
     checkanswer() {
         this.answered = true
+    },
+    getQuestionIcon(id, type) {
+        let pick = null 
+        if (type === 1) {
+            pick = this.meanList.find(x => x.id === id)
+        }
+        else if (type === 2) {
+            pick = this.kreadList.find(x => x.id === id)
+        }
+        else {
+            pick = this.oreadList.find(x => x.id === id)
+        }
+        
+        const icon = pick.selected ? "./picked.png" : "./circle.png"
+        return icon
+    },
+    getAnswerIcon(id, type) {
+        let pick = null 
+        if (type === 1) {
+            pick = this.meanList.find(x => x.id === id)
+        }
+        else if (type === 2) {
+            pick = this.kreadList.find(x => x.id === id)
+        }
+        else {
+            pick = this.oreadList.find(x => x.id === id)
+        }
+
+        const { selected, correct } = pick
+        let icon = "./circle.png"
+        if (selected && correct) {
+            icon = "./right.png"
+        }
+        else if (selected && !correct) {
+            icon = "./wrong.png"
+        }
+        else if (!selected && correct) {
+            icon = "./unpicked.png"
+        }
+        return icon
     },
 })
 
