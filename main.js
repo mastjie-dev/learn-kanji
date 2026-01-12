@@ -260,7 +260,7 @@ const quiz = () => ({
             pick = this.oreadList.find(x => x.id === id)
         }
         
-        const icon = pick.selected ? "./picked.png" : "./circle.png"
+        const icon = pick.selected ? "black" : "white"
         return icon
     },
     getAnswerIcon(id, type) {
@@ -276,15 +276,15 @@ const quiz = () => ({
         }
 
         const { selected, correct } = pick
-        let icon = "./circle.png"
+        let icon = "white"
         if (selected && correct) {
-            icon = "./right.png"
+            icon = "green"
         }
         else if (selected && !correct) {
-            icon = "./wrong.png"
+            icon = "red"
         }
         else if (!selected && correct) {
-            icon = "./unpicked.png"
+            icon = "orange"
         }
         return icon
     },
