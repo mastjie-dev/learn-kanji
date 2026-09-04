@@ -1,0 +1,240 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./tailwind.js"></script>
+    <script defer src="./alpine.min.js"></script>
+</head>
+<body>
+<div class="min-h-screen bg-slate-50 text-slate-900">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <div class="mx-auto max-w-lg px-4">
+
+      <div class="flex h-16 items-center gap-3">
+
+        <button
+          class="flex h-10 w-10 shrink-0 items-center justify-center
+                 rounded-xl text-slate-600 hover:bg-slate-100"
+          aria-label="Back"
+        >
+          ←
+        </button>
+
+        <div class="min-w-0">
+          <p class="text-xs font-medium uppercase tracking-wide text-slate-400">
+            Collection
+          </p>
+
+          <h1 class="truncate font-bold">
+            JLPT N5
+          </h1>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+
+  <main class="mx-auto max-w-lg px-4 pb-10">
+
+    <!-- Collection overview -->
+    <section class="py-6">
+
+      <div class="flex items-end justify-between">
+
+        <div>
+          <h2 class="text-2xl font-bold">
+            JLPT N5
+          </h2>
+
+          <p class="mt-1 text-sm text-slate-500">
+            Beginner Kanji
+          </p>
+        </div>
+
+        <div class="text-right">
+          <p class="text-2xl font-bold text-indigo-600">
+            43%
+          </p>
+
+          <p class="text-xs text-slate-400">
+            34 / 80 kanji
+          </p>
+        </div>
+
+      </div>
+
+
+      <!-- Overall progress -->
+      <div class="mt-5 h-2 overflow-hidden rounded-full bg-slate-200">
+        <div class="h-full w-[43%] rounded-full bg-indigo-500"></div>
+      </div>
+
+    </section>
+
+
+    <!-- Continue card -->
+    <section>
+
+      <button
+        class="w-full overflow-hidden rounded-3xl bg-indigo-600 p-5
+               text-left text-white shadow-lg shadow-indigo-100
+               transition active:scale-[0.99]"
+      >
+
+        <div class="flex items-start justify-between">
+
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="rounded-full bg-white/15 px-2.5 py-1
+                           text-[11px] font-bold uppercase tracking-wide">
+                Continue
+              </span>
+            </div>
+
+            <h2 class="mt-4 text-xl font-bold">
+              Lesson 04
+            </h2>
+
+            <p class="mt-1 text-indigo-100">
+              Family
+            </p>
+          </div>
+
+          <div class="flex h-11 w-11 items-center justify-center
+                      rounded-full bg-white/10 text-xl">
+            →
+          </div>
+
+        </div>
+
+
+        <div class="mt-6 flex items-center justify-between">
+
+          <div>
+            <p class="text-sm text-indigo-100">
+              7 kanji · about 5 min
+            </p>
+          </div>
+
+          <span class="text-sm font-bold">
+            4 / 7
+          </span>
+
+        </div>
+
+
+        <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-white/20">
+          <div class="h-full w-[57%] rounded-full bg-white"></div>
+        </div>
+
+      </button>
+
+    </section>
+    
+    <div class="mb-4 flex items-center justify-between">
+
+        <h2 class="text-lg font-bold">
+          Lessons
+        </h2>
+
+        <span class="text-sm text-slate-400">
+          10 lessons
+        </span>
+
+      </div>
+
+    <!-- Lessons -->
+    <section class="mt-8" x-data="kanjiData()">
+        
+        <template x-if="!loading">
+            <div>
+                <template x-for="i in group", :key="i">
+                    <div>
+                <button
+                 @click="handleClick(level, i)"
+                  class="w-full rounded-2xl border border-slate-200 bg-white
+                         p-4 text-left shadow-sm transition active:scale-[0.99]">
+
+                  <div class="flex items-center gap-4">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center
+                                rounded-full bg-emerald-50 text-emerald-600">✓</div>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex items-center justify-between gap-2">
+                        <h3 class="font-semibold">
+                            Lesson <span x-text="i"></span>
+                        </h3>
+                        <span class="text-xs font-medium text-emerald-600">
+                          Completed
+                        </span>
+                      </div>
+                      <p class="mt-0.5 text-sm text-slate-600">
+                        Numbers
+                      </p>
+                      <p class="mt-1 text-xs text-slate-400">
+                        <span x-text="i === group ? 5 - (group % 5) : 5"></span> kanji
+                      </p>
+                    </div>
+                    <span class="text-slate-300">
+                      ›
+                    </span>
+                  </div>
+                </button>
+                
+                <div class="my-3">
+                </div>
+                </template>
+            </div>
+        </template>
+
+        <div x-show="loading">
+            Loading...
+        </div>
+     
+    </section>
+
+  </main>
+
+</div>
+<script src="./common.js"></script>
+<script>
+    function handleClick(lvl, id) {
+        window.location.href = `./lesson.html?lvl=${lvl}&id=${id}`
+    }
+
+    function kanjiData() { return {  
+        kanjis: [],
+        loading: true,
+        level: 0,
+        group: 0,
+        async init() {
+            const params = new URLSearchParams(window.location.search);
+            const lvl = params.get("lvl")
+            const path = paths.find(p => p.name === lvl)
+            
+            if (path) {
+                const rawstr = localStorage.getItem(path.name) 
+                
+                if (rawstr !== null) {
+                    this.kanjis = JSON.parse(rawstr)
+                    this.loading = false
+                    this.group = Math.ceil(this.kanjis.length/5)
+                    this.level = path.name
+                } else {
+                    loadJSON(path.file).then(json => {
+                        const str = JSON.stringify(json)
+                        localStorage.setItem(path.name, str)
+                        this.kanjis = json
+                        this.loading = false
+                        this.group = Math.ceil(this.kanjis.length/5)
+                        this.level = id
+                    })
+                }
+            }
+        }
+    }}
+</script>
+</body>
+</html>

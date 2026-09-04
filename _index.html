@@ -1,0 +1,226 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./tailwind.js"></script>
+    <script defer src="./alpine.min.js"></script>
+</head>
+<body>
+    <div class="flex justify-center h-full">
+    
+    <div class="w-full lg:w-96 mx-4 h-full"
+        x-data="home" x-show="visible" @emithome.window="display">
+        <div class="py-5 flex justify-center bg-gray-100">
+            <p class="text-3xl">Learn Kanji (Alpha)</p>
+        </div>
+        <template x-for="menu in menulist">
+            <button
+                class="block w-full lg:w-96 py-2 odd:bg-red-200
+                    even:bg-red-100 hover:bg-red-400"
+                @click="opencontent(menu.id)"
+                x-text="menu.text"
+            ></button>
+        </template>
+        <div class="p-5 bg-gray-100">
+            <div>Data use to build this app is coming from
+                <a class="underline" target="_blank" 
+                    href="https://github.com/davidluzgouveia/kanji-data/tree/master">here</a>
+            </div>
+            <div>
+                Find me on x.com <a class="underline" target="_blank"
+                    href="https://x.com/mastjie">@mastjie</a>
+                for any inquiries.
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full lg:w-96 mx-4"
+        x-data="content" x-show="visible" @emitcontent.window="display">
+        <button class="block w-full py-2 bg-amber-200 hover:bg-amber-400"
+            @click="openhome">
+            Back to homepage 
+        </button>
+        <template x-for="i in count">
+            <button class="block w-full py-2 odd:bg-emerald-200
+                    even:bg-emerald-100 hover:bg-emerald-400"
+                @click="openlearn(i)">
+                Lesson <span x-text="i"></span>
+            </button>
+        </template>
+        <template x-for="i in count">
+            <button class="block w-full py-2 even:bg-blue-200
+                    odd:bg-blue-100 hover:bg-blue-400"
+                @click="openquiz(i)">
+                Quiz for lesson <span x-text="i"></span>
+            </button>
+        </template>
+    </div>
+
+    <div class="w-full lg:w-96 mx-4"
+        x-data="learn" x-show="visible" @emitlearn.window="display">
+        <button class="block w-full py-2 bg-amber-200 hover:bg-amber-400"
+            @click="opencontent">
+            Back to lessons page
+        </button>
+        <div class="py-2 pl-2">
+            Collection: <span x-text="collection"></span>
+            Lesson: <span x-text="lesson"></span>
+        </div>
+
+        <div>
+            <div class="flex justify-center bg-gray-300">
+                <p x-text="text.kanji" class="text-6xl py-2"></p>
+            </div>
+            <div class="flex flex-row py-2 bg-gray-100 text-lg">
+                <div class="basis-1/4 pl-2">Meaning</div>
+                <div class="basis-3/4 pl-2">
+                    <template x-for="m in text.mean">
+                        <p x-text="m"></p>
+                    </template>
+                </div>
+            </div>
+            <div class="flex flex-row py-2 bg-gray-300 text-lg">
+                <div class="basis-1/4 pl-2">Kun'yomi</div>
+                <div class="basis-3/4 pl-2">
+                    <template x-for="k in text.kread">
+                        <p x-text="k"></p>
+                    </template>
+                </div>
+            </div>
+            <div class="flex flex-row py-2 bg-gray-100 text-lg">
+                <div class="basis-1/4 pl-2">On'yomi</div>
+                <div class="basis-3/4 pl-2">
+                    <template x-for="o in text.oread">
+                        <p x-text="o"></p>
+                    </template>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex flex-row">
+            <button class="w-1/2 py-2 bg-sky-400 hover:bg-sky-600 mr-1"
+                @click="prev">Prev</button>
+            <button class="w-1/2 py-2 bg-sky-400 hover:bg-sky-600 ml-1"
+                @click="next">Next</button>
+        </div>
+    </div>
+
+    <div class="w-full lg:w-96 mx-4"
+        x-data="quiz" x-show="visible" @emitquiz.window="display">
+        <button class="block w-full py-2 bg-amber-200 hover:bg-amber-400"
+            @click="opencontent">
+            Back to lessons page
+        </button>
+        <div class="py-2 pl-2">
+            Collection: <span x-text="collection"></span>
+            Lesson: <span x-text="lesson"></span>
+        </div>
+        <div>
+            <div class="flex justify-center bg-gray-300">
+                <p x-text="text.kanji" class="text-6xl py-2"></p>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-2 py-2">
+            <template x-if="!answered">
+                 <template x-for="x in meanList">
+                    <div class="px-2 cursor-pointer" @click="selectmean(x.id)">
+                        <span>
+                            <svg class="inline-block" width="18" height="18">
+                                <circle cx="8" cy="8" r="7" stroke="black"
+                                    stroke-width="1" :fill="getQuestionIcon(x.id, 1)" />
+                            </svg>
+                        </span>
+                        <span x-text="x.text"></span>
+                    </div>                
+                </template>
+            </template>
+            <template x-if="answered">
+                <template x-for="x in meanList">
+                    <div class="px-2">
+                        <span>
+                            <svg class="inline-block" width="18" height="18">
+                                <circle cx="8" cy="8" r="7" stroke="black"
+                                    stroke-width="1" :fill="getAnswerIcon(x.id, 1)" />
+                            </svg>
+                        </span>
+                        <span x-text="x.text"></span>
+                    </div>
+                </template>
+            </template>
+        </div>
+
+        <div class="grid grid-cols-2 py-2">
+            <template x-if="!answered">
+                 <template x-for="x in kreadList">
+                    <div class="px-2 cursor-pointer" @click="selectkread(x.id)">
+                        <span>
+                            <svg class="inline-block" width="18" height="18">
+                                <circle cx="8" cy="8" r="7" stroke="black"
+                                    stroke-width="1" :fill="getQuestionIcon(x.id, 2)" />
+                            </svg>
+                        </span>
+                        <span x-text="x.text"></span>
+                    </div>                
+                </template>
+            </template>
+            <template x-if="answered">
+                <template x-for="x in kreadList">
+                    <div class="px-2">
+                        <span>
+                            <svg class="inline-block" width="18" height="18">
+                                <circle cx="8" cy="8" r="7" stroke="black"
+                                    stroke-width="1" :fill="getAnswerIcon(x.id, 2)" />
+                            </svg>
+                        </span>
+                        <span x-text="x.text"></span>
+                    </div>
+                </template>
+            </template>
+        </div>
+
+        <div class="grid grid-cols-2 py-2">
+            <template x-if="!answered">
+                 <template x-for="x in oreadList">
+                    <div class="px-2 cursor-pointer" @click="selectoread(x.id)">
+                        <span>
+                            <svg class="inline-block" width="18" height="18">
+                                <circle cx="8" cy="8" r="7" stroke="black"
+                                    stroke-width="1" :fill="getQuestionIcon(x.id, 3)" />
+                            </svg>
+                        </span>
+                        <span x-text="x.text"></span>
+                    </div>                
+                </template>
+            </template>
+            <template x-if="answered">
+                <template x-for="x in oreadList">
+                    <div class="px-2">
+                        <span>
+                            <svg class="inline-block" width="18" height="18">
+                                <circle cx="8" cy="8" r="7" stroke="black"
+                                    stroke-width="1" :fill="getAnswerIcon(x.id, 3)" />
+                            </svg>
+                        </span>
+                        <span x-text="x.text"></span>
+                    </div>
+                </template>
+            </template>
+        </div>
+
+        <div class="">
+            <template x-if="answered">
+                <button class="w-full py-2 bg-sky-400 hover:bg-sky-600"
+                    @click="next">Next</button>
+            </template>
+            <template x-if="!answered">
+                <button class="w-full py-2 bg-sky-400 hover:bg-sky-600"
+                    @click="checkanswer">Check Answer</button>
+            </template>
+        </div>
+    </div>
+
+    <!-- END OF CONTAINER -->
+    </div>
+    <script src="./main.js"></script>
+</body>
+</html>

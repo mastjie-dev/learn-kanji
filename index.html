@@ -5,222 +5,144 @@
     <script defer src="./alpine.min.js"></script>
 </head>
 <body>
-    <div class="flex justify-center h-full">
-    
-    <div class="w-full lg:w-96 mx-4 h-full"
-        x-data="home" x-show="visible" @emithome.window="display">
-        <div class="py-5 flex justify-center bg-gray-100">
-            <p class="text-3xl">Learn Kanji (Alpha)</p>
-        </div>
-        <template x-for="menu in menulist">
-            <button
-                class="block w-full lg:w-96 py-2 odd:bg-red-200
-                    even:bg-red-100 hover:bg-red-400"
-                @click="opencontent(menu.id)"
-                x-text="menu.text"
-            ></button>
-        </template>
-        <div class="p-5 bg-gray-100">
-            <div>Data use to build this app is coming from
-                <a class="underline" target="_blank" 
-                    href="https://github.com/davidluzgouveia/kanji-data/tree/master">here</a>
-            </div>
-            <div>
-                Find me on x.com <a class="underline" target="_blank"
-                    href="https://x.com/mastjie">@mastjie</a>
-                for any inquiries.
-            </div>
-        </div>
+<div class="min-h-screen bg-slate-50 text-slate-900">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-10 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <div class="mx-auto flex h-16 max-w-lg items-center justify-between px-4">
+      <div>
+        <p class="text-xs font-medium text-slate-500">KANJI JOURNEY</p>
+        <h1 class="text-lg font-bold">Collections</h1>
+      </div>
     </div>
+  </header>
 
-    <div class="w-full lg:w-96 mx-4"
-        x-data="content" x-show="visible" @emitcontent.window="display">
-        <button class="block w-full py-2 bg-amber-200 hover:bg-amber-400"
-            @click="openhome">
-            Back to homepage 
-        </button>
-        <template x-for="i in count">
-            <button class="block w-full py-2 odd:bg-emerald-200
-                    even:bg-emerald-100 hover:bg-emerald-400"
-                @click="openlearn(i)">
-                Lesson <span x-text="i"></span>
-            </button>
-        </template>
-        <template x-for="i in count">
-            <button class="block w-full py-2 even:bg-blue-200
-                    odd:bg-blue-100 hover:bg-blue-400"
-                @click="openquiz(i)">
-                Quiz for lesson <span x-text="i"></span>
-            </button>
-        </template>
-    </div>
-
-    <div class="w-full lg:w-96 mx-4"
-        x-data="learn" x-show="visible" @emitlearn.window="display">
-        <button class="block w-full py-2 bg-amber-200 hover:bg-amber-400"
-            @click="opencontent">
-            Back to lessons page
-        </button>
-        <div class="py-2 pl-2">
-            Collection: <span x-text="collection"></span>
-            Lesson: <span x-text="lesson"></span>
-        </div>
-
+  <main x-data="homepage" class="mx-auto max-w-lg px-4 pb-24">
+    <!-- Overall progress -->
+    <section class="py-6">
+      <div class="mb-3 flex items-end justify-between">
         <div>
-            <div class="flex justify-center bg-gray-300">
-                <p x-text="text.kanji" class="text-6xl py-2"></p>
-            </div>
-            <div class="flex flex-row py-2 bg-gray-100 text-lg">
-                <div class="basis-1/4 pl-2">Meaning</div>
-                <div class="basis-3/4 pl-2">
-                    <template x-for="m in text.mean">
-                        <p x-text="m"></p>
-                    </template>
-                </div>
-            </div>
-            <div class="flex flex-row py-2 bg-gray-300 text-lg">
-                <div class="basis-1/4 pl-2">Kun'yomi</div>
-                <div class="basis-3/4 pl-2">
-                    <template x-for="k in text.kread">
-                        <p x-text="k"></p>
-                    </template>
-                </div>
-            </div>
-            <div class="flex flex-row py-2 bg-gray-100 text-lg">
-                <div class="basis-1/4 pl-2">On'yomi</div>
-                <div class="basis-3/4 pl-2">
-                    <template x-for="o in text.oread">
-                        <p x-text="o"></p>
-                    </template>
-                </div>
-            </div>
+          <p class="text-sm text-slate-500">Your progress</p>
+          <p class="text-2xl font-bold" x-text="Math.floor(current/2136*100) + ' %'"></p>
         </div>
-        
-        <div class="flex flex-row">
-            <button class="w-1/2 py-2 bg-sky-400 hover:bg-sky-600 mr-1"
-                @click="prev">Prev</button>
-            <button class="w-1/2 py-2 bg-sky-400 hover:bg-sky-600 ml-1"
-                @click="next">Next</button>
-        </div>
-    </div>
 
-    <div class="w-full lg:w-96 mx-4"
-        x-data="quiz" x-show="visible" @emitquiz.window="display">
-        <button class="block w-full py-2 bg-amber-200 hover:bg-amber-400"
-            @click="opencontent">
-            Back to lessons page
+        <p class="text-sm text-slate-500">
+        <span x-text="current"></span> / 2,136 kanji
+        </p>
+      </div>
+
+    </section>
+
+    <!-- Collections -->
+    <section>
+      <div class="mb-4 flex items-center justify-between">
+        <h2 class="text-lg font-bold">Levels</h2>
+      </div>
+      <div class="space-y-3">
+        <template x-for="menu in menulist">  
+        <!-- Collection -->
+        <button class="w-full rounded-2xl border border-slate-200 bg-white p-4
+            text-left shadow-sm transition active:scale-[0.98]" @click="handleClick(menu.id)">
+          
+            <div class="flex items-start gap-4">
+                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl
+                             bg-indigo-50 text-sm font-bold text-indigo-600" x-text="'0' + menu.id"></div>
+
+                <div class="min-w-0 flex-1">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-semibold" x-text="menu.name"></h3>
+                        <span class="text-xs font-medium text-slate-400"
+                            x-text="menu.count + ' kanji'"></span>
+                    </div>
+                    <p class="mt-1 text-sm text-slate-500" x-text="menu.description"></p>
+                </div>
+          </div>
         </button>
-        <div class="py-2 pl-2">
-            Collection: <span x-text="collection"></span>
-            Lesson: <span x-text="lesson"></span>
-        </div>
-        <div>
-            <div class="flex justify-center bg-gray-300">
-                <p x-text="text.kanji" class="text-6xl py-2"></p>
-            </div>
-        </div>
-        
-        <div class="grid grid-cols-2 py-2">
-            <template x-if="!answered">
-                 <template x-for="x in meanList">
-                    <div class="px-2 cursor-pointer" @click="selectmean(x.id)">
-                        <span>
-                            <svg class="inline-block" width="18" height="18">
-                                <circle cx="8" cy="8" r="7" stroke="black"
-                                    stroke-width="1" :fill="getQuestionIcon(x.id, 1)" />
-                            </svg>
-                        </span>
-                        <span x-text="x.text"></span>
-                    </div>                
-                </template>
-            </template>
-            <template x-if="answered">
-                <template x-for="x in meanList">
-                    <div class="px-2">
-                        <span>
-                            <svg class="inline-block" width="18" height="18">
-                                <circle cx="8" cy="8" r="7" stroke="black"
-                                    stroke-width="1" :fill="getAnswerIcon(x.id, 1)" />
-                            </svg>
-                        </span>
-                        <span x-text="x.text"></span>
-                    </div>
-                </template>
-            </template>
-        </div>
+        </template>
+      </div>
+    </section>
+  </main>
 
-        <div class="grid grid-cols-2 py-2">
-            <template x-if="!answered">
-                 <template x-for="x in kreadList">
-                    <div class="px-2 cursor-pointer" @click="selectkread(x.id)">
-                        <span>
-                            <svg class="inline-block" width="18" height="18">
-                                <circle cx="8" cy="8" r="7" stroke="black"
-                                    stroke-width="1" :fill="getQuestionIcon(x.id, 2)" />
-                            </svg>
-                        </span>
-                        <span x-text="x.text"></span>
-                    </div>                
-                </template>
-            </template>
-            <template x-if="answered">
-                <template x-for="x in kreadList">
-                    <div class="px-2">
-                        <span>
-                            <svg class="inline-block" width="18" height="18">
-                                <circle cx="8" cy="8" r="7" stroke="black"
-                                    stroke-width="1" :fill="getAnswerIcon(x.id, 2)" />
-                            </svg>
-                        </span>
-                        <span x-text="x.text"></span>
-                    </div>
-                </template>
-            </template>
-        </div>
+  <!-- Bottom navigation -->
+  <nav class="fixed inset-x-0 bottom-0 z-20 border-t border-slate-200 bg-white">
+    <div class="mx-auto flex h-16 max-w-lg items-center justify-around">
 
-        <div class="grid grid-cols-2 py-2">
-            <template x-if="!answered">
-                 <template x-for="x in oreadList">
-                    <div class="px-2 cursor-pointer" @click="selectoread(x.id)">
-                        <span>
-                            <svg class="inline-block" width="18" height="18">
-                                <circle cx="8" cy="8" r="7" stroke="black"
-                                    stroke-width="1" :fill="getQuestionIcon(x.id, 3)" />
-                            </svg>
-                        </span>
-                        <span x-text="x.text"></span>
-                    </div>                
-                </template>
-            </template>
-            <template x-if="answered">
-                <template x-for="x in oreadList">
-                    <div class="px-2">
-                        <span>
-                            <svg class="inline-block" width="18" height="18">
-                                <circle cx="8" cy="8" r="7" stroke="black"
-                                    stroke-width="1" :fill="getAnswerIcon(x.id, 3)" />
-                            </svg>
-                        </span>
-                        <span x-text="x.text"></span>
-                    </div>
-                </template>
-            </template>
-        </div>
+      <button class="flex flex-col items-center gap-1 text-indigo-600">
+        <span>⌂</span>
+        <span class="text-[11px] font-medium">Home</span>
+      </button>
 
-        <div class="">
-            <template x-if="answered">
-                <button class="w-full py-2 bg-sky-400 hover:bg-sky-600"
-                    @click="next">Next</button>
-            </template>
-            <template x-if="!answered">
-                <button class="w-full py-2 bg-sky-400 hover:bg-sky-600"
-                    @click="checkanswer">Check Answer</button>
-            </template>
-        </div>
+      <button class="flex flex-col items-center gap-1 text-slate-400">
+        <span>📚</span>
+        <span class="text-[11px] font-medium">Lessons</span>
+      </button>
+
+      <button class="flex flex-col items-center gap-1 text-slate-400">
+        <span>📊</span>
+        <span class="text-[11px] font-medium">Progress</span>
+      </button>
+
+      <button class="flex flex-col items-center gap-1 text-slate-400">
+        <span>⚙</span>
+        <span class="text-[11px] font-medium">Settings</span>
+      </button>
+
     </div>
+  </nav>
 
-    <!-- END OF CONTAINER -->
-    </div>
-    <script src="./main.js"></script>
+</div>    
+<script src="./common.js"></script>    
+<script>
+    const homepage = () => ({
+        current: 50,
+        menulist: [
+            {
+                id: "LVL5",
+                name: "JLPT N5",
+                count: 79,
+                description: "Beginner Kanji Essentials",
+            },
+            {
+                id: "LVL4",
+                name: "JLPT N4",
+                count: 166,
+                description: "Elementary Kanji Foundations",
+            },
+            {
+                id: "LVL3",
+                name: "JLPT N3",
+                count: 367,
+                description: "Intermediate Kanji Expansion",
+            },
+            {
+                id: "LVL2",
+                name: "JLPT N2",
+                count: 367,
+                description: "Advanced Kanji Proficiency",
+            },
+            {
+                id: "LVL1",
+                name: "JLPT N1",
+                count: 985,
+                description: "Mastery Kanji & Literacy",
+            },
+            {
+                id: "OTHR",
+                name: "OTHER",
+                count: 172,
+                description: "",
+            },
+        ],
+    })
+
+    function handleClick(lvl) {
+        window.location.href = "./lesson-group.html?lvl=" + lvl
+    }
+
+    document.addEventListener("alpine:init", () => {
+        Alpine.data("homepage", homepage)
+    })
+</script>
 </body>
 </html>
+

@@ -1,0 +1,473 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./tailwind.js"></script>
+    <script defer src="./alpine.min.js"></script>
+</head>
+<body>
+<div class="min-h-screen bg-slate-50 text-slate-900">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <div class="mx-auto flex h-16 max-w-lg items-center gap-3 px-4">
+
+      <button
+        class="flex h-10 w-10 shrink-0 items-center justify-center
+               rounded-xl text-slate-600 transition hover:bg-slate-100"
+        aria-label="Back"
+      >
+        ←
+      </button>
+
+      <div class="min-w-0 flex-1">
+        <p class="truncate text-xs font-medium text-slate-400">
+          Lesson 04
+        </p>
+
+        <h1 class="truncate font-bold">
+          Family
+        </h1>
+      </div>
+
+      <div class="text-right">
+        <p class="text-sm font-bold">
+          7
+        </p>
+
+        <p class="text-[10px] text-slate-400">
+          kanji
+        </p>
+      </div>
+
+    </div>
+  </header>
+
+
+  <main class="mx-auto max-w-lg px-4 pb-10">
+
+
+    <!-- Intro -->
+    <section class="py-7">
+
+      <p class="text-sm font-medium text-indigo-600">
+        Quiz
+      </p>
+
+      <h2 class="mt-1 text-2xl font-bold tracking-tight">
+        What do you want to practice?
+      </h2>
+
+      <p class="mt-2 text-sm leading-5 text-slate-500">
+        Choose a skill to focus on, or take a mixed quiz.
+      </p>
+
+    </section>
+
+
+    <!-- Skill cards -->
+    <section class="space-y-3">
+
+
+      <!-- Meaning -->
+      <button
+        class="group w-full rounded-3xl border border-slate-200 bg-white
+               p-5 text-left shadow-sm transition
+               hover:border-indigo-200 hover:shadow-md
+               active:scale-[0.99]"
+      >
+
+        <div class="flex items-start gap-4">
+
+          <!-- Icon -->
+          <div
+            class="flex h-12 w-12 shrink-0 items-center justify-center
+                   rounded-2xl bg-blue-50 text-xl text-blue-600"
+          >
+            文
+          </div>
+
+
+          <div class="min-w-0 flex-1">
+
+            <div class="flex items-center justify-between gap-3">
+
+              <div>
+                <h3 class="font-bold">
+                  Meaning
+                </h3>
+
+                <p class="mt-0.5 text-sm text-slate-500">
+                  Match kanji with their meanings
+                </p>
+              </div>
+
+              <span class="text-xl text-slate-300 transition
+                           group-hover:translate-x-1">
+                →
+              </span>
+
+            </div>
+
+
+            <div class="mt-4">
+
+              <div class="mb-2 flex items-center justify-between">
+                <span class="text-xs text-slate-400">
+                  Mastery
+                </span>
+
+                <span class="text-xs font-bold text-emerald-600">
+                  86%
+                </span>
+              </div>
+
+              <div class="h-1.5 overflow-hidden rounded-full bg-slate-100">
+                <div
+                  class="h-full w-[86%] rounded-full bg-emerald-500"
+                ></div>
+              </div>
+
+            </div>
+
+
+            <div class="mt-3 flex items-center gap-2 text-xs text-slate-400">
+              <span>6 / 7 mastered</span>
+              <span>·</span>
+              <span>7 questions</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </button>
+
+
+      <!-- Kunyomi -->
+      <button
+        class="group w-full rounded-3xl border border-slate-200 bg-white
+               p-5 text-left shadow-sm transition
+               hover:border-indigo-200 hover:shadow-md
+               active:scale-[0.99]"
+      >
+
+        <div class="flex items-start gap-4">
+
+          <div
+            class="flex h-12 w-12 shrink-0 items-center justify-center
+                   rounded-2xl bg-amber-50 text-xl font-bold text-amber-600"
+          >
+            あ
+          </div>
+
+
+          <div class="min-w-0 flex-1">
+
+            <div class="flex items-center justify-between gap-3">
+
+              <div>
+                <h3 class="font-bold">
+                  Kunyomi
+                </h3>
+
+                <p class="mt-0.5 text-sm text-slate-500">
+                  Practice native Japanese readings
+                </p>
+              </div>
+
+              <span class="text-xl text-slate-300 transition
+                           group-hover:translate-x-1">
+                →
+              </span>
+
+            </div>
+
+
+            <div class="mt-4">
+
+              <div class="mb-2 flex items-center justify-between">
+                <span class="text-xs text-slate-400">
+                  Mastery
+                </span>
+
+                <span class="text-xs font-bold text-amber-600">
+                  71%
+                </span>
+              </div>
+
+              <div class="h-1.5 overflow-hidden rounded-full bg-slate-100">
+                <div
+                  class="h-full w-[71%] rounded-full bg-amber-500"
+                ></div>
+              </div>
+
+            </div>
+
+
+            <div class="mt-3 flex items-center gap-2 text-xs text-slate-400">
+              <span>5 / 7 mastered</span>
+              <span>·</span>
+              <span>7 questions</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </button>
+
+
+      <!-- Onyomi -->
+      <button
+        class="group w-full rounded-3xl border-2 border-indigo-100
+               bg-white p-5 text-left shadow-sm transition
+               hover:border-indigo-300 hover:shadow-md
+               active:scale-[0.99]"
+      >
+
+        <div class="flex items-start gap-4">
+
+          <div
+            class="flex h-12 w-12 shrink-0 items-center justify-center
+                   rounded-2xl bg-violet-50 text-lg font-bold text-violet-600"
+          >
+            ア
+          </div>
+
+
+          <div class="min-w-0 flex-1">
+
+            <div class="flex items-start justify-between gap-3">
+
+              <div>
+                <div class="flex items-center gap-2">
+
+                  <h3 class="font-bold">
+                    Onyomi
+                  </h3>
+
+                  <span
+                    class="rounded-full bg-indigo-50 px-2 py-0.5
+                           text-[10px] font-bold text-indigo-600"
+                  >
+                    FOCUS
+                  </span>
+
+                </div>
+
+                <p class="mt-0.5 text-sm text-slate-500">
+                  Practice Chinese-derived readings
+                </p>
+              </div>
+
+              <span class="text-xl text-indigo-300 transition
+                           group-hover:translate-x-1">
+                →
+              </span>
+
+            </div>
+
+
+            <div class="mt-4">
+
+              <div class="mb-2 flex items-center justify-between">
+
+                <span class="text-xs text-slate-400">
+                  Mastery
+                </span>
+
+                <span class="text-xs font-bold text-rose-500">
+                  43%
+                </span>
+
+              </div>
+
+              <div class="h-1.5 overflow-hidden rounded-full bg-slate-100">
+                <div
+                  class="h-full w-[43%] rounded-full bg-rose-500"
+                ></div>
+              </div>
+
+            </div>
+
+
+            <div class="mt-3 flex items-center gap-2 text-xs text-slate-400">
+              <span>3 / 7 mastered</span>
+              <span>·</span>
+              <span>7 questions</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </button>
+
+
+    </section>
+
+
+    <!-- Mixed quiz -->
+    <section class="mt-6">
+
+      <button
+        class="w-full overflow-hidden rounded-3xl bg-indigo-600
+               p-5 text-left text-white shadow-lg shadow-indigo-100
+               transition active:scale-[0.99]"
+      >
+
+        <div class="flex items-start justify-between">
+
+          <div>
+
+            <span
+              class="inline-flex rounded-full bg-white/15 px-2.5 py-1
+                     text-[10px] font-bold uppercase tracking-wider"
+            >
+              Recommended
+            </span>
+
+            <h3 class="mt-4 text-xl font-bold">
+              Mixed Quiz
+            </h3>
+
+            <p class="mt-1 text-sm text-indigo-100">
+              Test meaning, kunyomi & onyomi
+            </p>
+
+          </div>
+
+          <div
+            class="flex h-11 w-11 items-center justify-center
+                   rounded-full bg-white/10 text-xl"
+          >
+            →
+          </div>
+
+        </div>
+
+
+        <div class="mt-6 flex items-center justify-between">
+
+          <div class="flex items-center gap-2 text-sm text-indigo-100">
+
+            <span>15 questions</span>
+
+            <span>·</span>
+
+            <span>~5 min</span>
+
+          </div>
+
+          <span class="font-bold">
+            72%
+          </span>
+
+        </div>
+
+
+        <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-white/20">
+
+          <div
+            class="h-full w-[72%] rounded-full bg-white"
+          ></div>
+
+        </div>
+
+      </button>
+
+    </section>
+
+
+    <!-- Review mistakes -->
+    <section class="mt-6">
+
+      <button
+        class="flex w-full items-center gap-4 rounded-2xl
+               border border-slate-200 bg-white p-4 text-left
+               transition hover:border-rose-200
+               active:scale-[0.99]"
+      >
+
+        <div
+          class="flex h-11 w-11 shrink-0 items-center justify-center
+                 rounded-xl bg-rose-50 text-rose-500"
+        >
+          ↻
+        </div>
+
+        <div class="min-w-0 flex-1">
+
+          <div class="flex items-center justify-between">
+
+            <h3 class="font-semibold">
+              Review mistakes
+            </h3>
+
+            <span class="text-slate-300">
+              →
+            </span>
+
+          </div>
+
+          <p class="mt-1 text-sm text-slate-500">
+            4 questions to review
+          </p>
+
+        </div>
+
+      </button>
+
+    </section>
+
+
+    <!-- Small summary -->
+    <section
+      class="mt-8 rounded-2xl bg-slate-100 p-4"
+    >
+
+      <div class="flex items-center justify-between">
+
+        <div>
+          <p class="text-xs font-medium text-slate-400">
+            Lesson mastery
+          </p>
+
+          <p class="mt-1 font-bold">
+            72%
+          </p>
+        </div>
+
+        <div class="h-10 w-px bg-slate-200"></div>
+
+        <div>
+          <p class="text-xs font-medium text-slate-400">
+            Best score
+          </p>
+
+          <p class="mt-1 font-bold">
+            14 / 15
+          </p>
+        </div>
+
+        <div class="h-10 w-px bg-slate-200"></div>
+
+        <div>
+          <p class="text-xs font-medium text-slate-400">
+            Attempts
+          </p>
+
+          <p class="mt-1 font-bold">
+            6
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+</body>
+</html>
