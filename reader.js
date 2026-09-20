@@ -1,38 +1,43 @@
-const fs = require("fs")
+const fs = require("fs").promises;
 
-fs.readFile("./jlpt_othr.json", "utf8", (err, data) => {
-    if (err) {
-        console.log(err)
-        return
-    }
-   
-    let count = 0
-    const json = JSON.parse(data)
-    const raw = []
-    for (let t in json) {
-        count++
-    }
-    console.log(count)
-    /*
-        if (json[t].jlpt_new !== null) continue
-        const obj = {
-            kanji: t,
-            mean: json[t].meanings,
-            kread: json[t].readings_kun,
-            oread: json[t].readings_on,
-            stroke: json[t].strokes,
-            level: 0,
-            radicals: [],
+async function readFiles() {
+  const files = ["./data/radicals0.json", "./data/radicals1.json", "./data/radicals2.json"];
+
+  try {
+    const contents = await Promise.all(
+      files.map(file => fs.readFile(file, "utf8"))
+    );
+
+    const clean = [];
+    contents.forEach((content, index) => {
+      const json = JSON.parse(content)[0];
+        
+        for (let i = 1; i < json.length; i++) {
+            const mean = json[i][2] ? json[i][2].split() : [];
+            const kread = json[i][3] ? json[i][3].split() : [];
+            const oread = json[i][4] ? json[i][4].split() : [];
+            
+            clean.push({
+                kanji: json[i][0],
+                mean,
+                kread: kread.filter(k => k !== " "),
+                oread: oread.filter(o => o !== " "),
+            })
         }
-        raw.push(obj)
-    }
+
+    });
     
-    fs.writeFile("jlpt_other.json", JSON.stringify(raw), err => {
-        if (err) { 
-            console.log(err)
-            return
-        }
-        console.log("done")
-    })
-    */
-})
+    try {
+        fs.writeFile('radicals_core.json', JSON.stringify(clean), 'utf8');  
+        console.log('File written successfully!');
+    } catch (err) {
+        console.error('Error writing file:', err);
+    }
+
+  } catch (err) {
+    console.error("Error reading files:", err);
+  }
+}
+
+readFiles();
+

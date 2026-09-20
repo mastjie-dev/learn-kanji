@@ -10,10 +10,10 @@
     <!-- Header -->
     <header class="border-b border-slate-200 bg-white">
         <div class="mx-auto flex h-16 max-w-lg items-center gap-3 px-4">
-            <button
+            <button @click="back"
                 class="flex h-10 w-10 items-center justify-center rounded-xl
                    text-slate-600 hover:bg-slate-100" aria-label="Exit quiz">
-            ×
+            ←
             </button>
 
             <div class="flex-1">
@@ -148,6 +148,11 @@ function PageComponent() {
             kanji: "",
             answer: "",
             choices: [],
+        },
+        back() {
+            const params = new URLSearchParams(window.location.search);
+            const lvl = params.get("lvl")
+            window.location.href = `./lesson-group.html?lvl=${lvl}`
         },
         increment () {
             this.index++

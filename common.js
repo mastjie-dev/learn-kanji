@@ -1,10 +1,11 @@
 const paths = [
-    { id: 1, name: "LVL5", file: "jlpt_lvl5.json" },
-    { id: 2, name: "LVL4", file: "jlpt_lvl4.json" },
-    { id: 3, name: "LVL3", file: "jlpt_lvl3.json" },
-    { id: 4, name: "LVL2", file: "jlpt_lvl2.json" },
-    { id: 5, name: "LVL1", file: "jlpt_lvl1.json" },
-    { id: 6, name: "OTHR", file: "jlpt_othr.json" },
+    { id: 0, name: "RDCL", file: "radicals_core.json", text: "Radicals" },
+    { id: 1, name: "LVL5", file: "jlpt_lvl5.json", text: "JLPT N5" },
+    { id: 2, name: "LVL4", file: "jlpt_lvl4.json", text: "JLPT N4" },
+    { id: 3, name: "LVL3", file: "jlpt_lvl3.json", text: "JLPT N3" },
+    { id: 4, name: "LVL2", file: "jlpt_lvl2.json", text: "JLPT N2" },
+    { id: 5, name: "LVL1", file: "jlpt_lvl1.json", text: "JLPT N1" },
+    { id: 6, name: "OTHR", file: "jlpt_othr.json", text: "JLPT OTHER" },
 ]
 
 async function loadJSON(url) {

@@ -11,18 +11,15 @@
     <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/95
         backdrop-blur">
         <div class="mx-auto flex h-16 max-w-lg items-center gap-3 px-4">
-            <button
-            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl
-                   text-slate-600 hover:bg-slate-100"
-            aria-label="Back">
+            <button @click="back"
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl
+                       text-slate-600 hover:bg-slate-100"
+                aria-label="Back">
             ←
             </button>
 
             <div class="min-w-0 flex-1">
-                <p class="truncate text-xs font-medium text-slate-400">
-                    JLPT N5 · Lesson 03
-                </p>
-                <h1 class="truncate font-bold">People & Relationships</h1>
+                <h1 class="truncate font-bold" x-text="text"></h1>
             </div>
 
             <span class="text-sm font-semibold text-slate-500">8 / 12</span>
@@ -63,7 +60,7 @@
                             Kanji <span x-text="current+1"></span>
                         </span>
                         <div class="flex h-40 w-40 items-center justify-center rounded-3xl bg-slate-50">
-                          <span class="text-8xl font-medium leading-none"
+                          <span class="text-[clamp(1.5rem,5vw,5rem)] font-medium leading-none"
                                 x-text="kanjis[current].kanji">
                           </span>
                         </div>
@@ -149,6 +146,12 @@
         kanjis: [],
         loading: true,
         current: 0,
+        text: "",
+        back() {
+            const params = new URLSearchParams(window.location.search);
+            const lvl = params.get("lvl")
+            window.location.href = `./lesson-group.html?lvl=${lvl}`
+        },
         increment() {
             this.current++
             if (this.current > 4) {
@@ -168,7 +171,8 @@
             const params = new URLSearchParams(window.location.search);
             const id = +params.get("id")
             const lvl = params.get("lvl")
-                       
+            this.text = `JLPT N${lvl.at(-1)} · Lesson ${id}`
+
             const rawstr = localStorage.getItem(lvl) 
             if (rawstr !== null) {
                 const json = JSON.parse(rawstr)

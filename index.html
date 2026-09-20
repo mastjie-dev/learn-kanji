@@ -46,7 +46,7 @@
           
             <div class="flex items-start gap-4">
                 <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl
-                             bg-indigo-50 text-sm font-bold text-indigo-600" x-text="'0' + menu.id"></div>
+                             bg-indigo-50 text-sm font-bold text-indigo-600" x-text="menu.id"></div>
 
                 <div class="min-w-0 flex-1">
                     <div class="flex items-center justify-between">
@@ -96,6 +96,12 @@
     const homepage = () => ({
         current: 50,
         menulist: [
+            {
+                id: "RDCL",
+                name: "RADICALS",
+                count: 52,
+                description: "Essentials Radicals",
+            },
             {
                 id: "LVL5",
                 name: "JLPT N5",

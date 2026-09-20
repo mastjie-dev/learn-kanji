@@ -5,7 +5,7 @@
     <script defer src="./alpine.min.js"></script>
 </head>
 <body>
-<div class="min-h-screen bg-slate-50 text-slate-900">
+<div class="min-h-screen bg-slate-50 text-slate-900" x-data="kanjiData()">
 
   <!-- Header -->
   <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
@@ -13,22 +13,20 @@
 
       <div class="flex h-16 items-center gap-3">
 
-        <button
+        <a href="./index.html"
           class="flex h-10 w-10 shrink-0 items-center justify-center
                  rounded-xl text-slate-600 hover:bg-slate-100"
           aria-label="Back"
         >
           ←
-        </button>
+        </a>
 
         <div class="min-w-0">
           <p class="text-xs font-medium uppercase tracking-wide text-slate-400">
             Collection
           </p>
 
-          <h1 class="truncate font-bold">
-            JLPT N5
-          </h1>
+          <h1 class="truncate font-bold" x-text="text"></h1>
         </div>
 
       </div>
@@ -45,9 +43,7 @@
       <div class="flex items-end justify-between">
 
         <div>
-          <h2 class="text-2xl font-bold">
-            JLPT N5
-          </h2>
+          <h2 class="text-2xl font-bold" x-text="text"></h2>
 
           <p class="mt-1 text-sm text-slate-500">
             Beginner Kanji
@@ -147,7 +143,7 @@
       </div>
 
     <!-- Lessons -->
-    <section class="mt-8" x-data="kanjiData()">
+    <section class="mt-8">
         
         <template x-if="!loading">
             <div>
@@ -209,6 +205,7 @@
         loading: true,
         level: 0,
         group: 0,
+        text: "",
         async init() {
             const params = new URLSearchParams(window.location.search);
             const lvl = params.get("lvl")
@@ -216,7 +213,8 @@
             
             if (path) {
                 const rawstr = localStorage.getItem(path.name) 
-                
+                this.text = path.text
+
                 if (rawstr !== null) {
                     this.kanjis = JSON.parse(rawstr)
                     this.loading = false
@@ -229,7 +227,7 @@
                         this.kanjis = json
                         this.loading = false
                         this.group = Math.ceil(this.kanjis.length/5)
-                        this.level = id
+                        this.level = lvl
                     })
                 }
             }
